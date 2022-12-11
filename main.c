@@ -38,45 +38,51 @@ void to_lower(char *str) {
 int main() {
     // dictionary of punctuation marks
     const char *punctuation_marks = " .,!?;:-<>[]{}()";
-    char dictionary[MAX_LEN];
+    // massive of words and their number of repetitions
+    char dict[MAX_LEN][MAX_LEN][int];
+
 
     // input string
     char text[MAX_LEN];
     fgets(text, MAX_LEN, stdin);
+    char *str = text;
+    char word_clean[MAX_LEN];
+    char word[MAX_LEN];
+    char result[MAX_LEN] = "";
 
-    char *main = text;
-    char word1[MAX_LEN];
-
-    char final[MAX_LEN];
-
-    while (*main) {
-        main = get_word(main, word1);
-        if (strchr(punctuation_marks, word1[strlen(word1) - 1])) {
-            word1[strlen(word1) - 1] = '\0';
+    // добавление в словарь
+    while (*str) {
+        str = get_word(str, word);
+        //word_clean = word
+        strcpy(word_clean, word);
+        if (strchr(punctuation_marks, word_clean[strlen(word_clean) - 1])) {
+            word_clean[strlen(word_clean) - 1] = '\0';
         }
-        if (strlen(word1) > 0) {
-            to_lower(word1);
-            //printf("%s!", word1);
-
-            char *main2 = main;
-            char word2[MAX_LEN];
-            while(*main2){
-                main2 = get_word(main2, word2);
-                if(strchr(punctuation_marks, word2[strlen(word2) - 1])) {
-                    word2[strlen(word2) - 1] = '\0';
+        if (strlen(word_clean) > 0) {
+            to_lower(word_clean);
+            // if this word_clean is not in the dictionary add it
+            int i = 0;
+            while (i < MAX_LEN && strlen(dict[i]) > 0) {
+                if (strcmp(dict[i], word_clean) == 0) {
+                    break;
                 }
-                if(strlen(word2) > 0) {
-                    to_lower(word2);
-                    if(strcmp(word1, word2) == 0) {
-                        printf("same");
-                    }
-
-                }
+                i++;
             }
-            //printf("\n");
-        }
+            if (i == MAX_LEN || strlen(dict[i]) == 0) {
+                strcpy(dict[i], word_clean);
+                // word = word + " "
+                strcat(word, " ");
+                strcat(result, word);
+            }
+            else {
 
+            }
+        }
     }
+
+
+
+    printf("%s", result);
 
     return 0;
 }
