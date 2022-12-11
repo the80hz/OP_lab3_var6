@@ -34,31 +34,49 @@ void to_lower(char *str) {
     }
 }
 
+
 int main() {
     // dictionary of punctuation marks
     const char *punctuation_marks = " .,!?;:-<>[]{}()";
+    char dictionary[MAX_LEN];
 
     // input string
     char text[MAX_LEN];
     fgets(text, MAX_LEN, stdin);
 
-    // get words from text
-    char word[MAX_LEN];
-    char *str = text;
-    char temp[MAX_LEN];
+    char *main = text;
+    char word1[MAX_LEN];
 
-    while (*str) {
-        str = get_word(str, word);
-        if (strchr(punctuation_marks, word[strlen(word) - 1])) {
-            word[strlen(word) - 1] = '\0';
+    char final[MAX_LEN];
+
+    while (*main) {
+        main = get_word(main, word1);
+        if (strchr(punctuation_marks, word1[strlen(word1) - 1])) {
+            word1[strlen(word1) - 1] = '\0';
         }
-        to_lower(word);
-        if (strlen(word) > 0) {
-            strcat(temp, word);
-            strcat(temp, " ");
+        if (strlen(word1) > 0) {
+            to_lower(word1);
+            //printf("%s!", word1);
+
+            char *main2 = main;
+            char word2[MAX_LEN];
+            while(*main2){
+                main2 = get_word(main2, word2);
+                if(strchr(punctuation_marks, word2[strlen(word2) - 1])) {
+                    word2[strlen(word2) - 1] = '\0';
+                }
+                if(strlen(word2) > 0) {
+                    to_lower(word2);
+                    if(strcmp(word1, word2) == 0) {
+                        printf("same");
+                    }
+
+                }
+            }
+            //printf("\n");
         }
+
     }
-
 
     return 0;
 }
