@@ -10,18 +10,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
 
 #define MAX_LEN 1000
 
-// Function to get the next word from the string
+// Function to get the next word with next symbol from the string
 char *get_word(char *str, char *word) {
     int i = 0;
     while (isspace(*str)) {
         str++;
     }
-    while (*str && !isspace(*str)) {
+    while (!isspace(*str) && *str != '\0') {
         word[i++] = *str++;
     }
+    //word[i] = ' ';
     word[i] = '\0';
     return str;
 }
@@ -50,7 +52,7 @@ int main() {
 
     char prev_sentence[MAX_LEN];
 
-    char result[MAX_LEN];
+    char result[MAX_LEN] = "";
 
     while (*main) {
         int flag_is_next = 0;
@@ -59,47 +61,39 @@ int main() {
         if (strchr(punctuation_marks, word1_clean[strlen(word1_clean) - 1])) {
             word1_clean[strlen(word1_clean) - 1] = '\0';
         }
-
         if (strlen(word1_clean) > 0) {
             to_lower(word1_clean);
-            //printf("%s!", word1);
 
+
+            // проверка на будущее совпадение
             char *main2 = main;
-
             char word2[MAX_LEN];
             char word2_clean[MAX_LEN];
             while(*main2){
                 main2 = get_word(main2, word2);
                 strcpy(word2_clean, word2);
-                if(strchr(punctuation_marks, word2_clean[strlen(word2_clean) - 1])) {
+                if(strchr(punctuation_marks, word2_clean[strlen(word2_clean) - 1]))
                     word2_clean[strlen(word2_clean) - 1] = '\0';
-                }
                 if(strlen(word2_clean) > 0) {
                     to_lower(word2_clean);
-                    //printf("%s ", word2);
-
-                    if(strcmp(word1_clean, word2_clean) == 0) {
+                    if(strcmp(word1_clean, word2_clean) == 0)
                         flag_is_next = 1;
-                        //printf("1");
-                        break;
-                    }
                 }
             }
 
-            if(flag_is_next == 1) {
-                // word1 = (word1)
-                strcat(result, "(");
-                strcat(result, word1);
-                strcat(result, ")");
-            }
-
-            //printf("\n");
-
         }
-
+        if(flag_is_next == 1){
+            strcat(result, "(");
+            strcat(result, word1);
+            strcat(result, ")");
+        }
+        if(flag_is_next == 0){
+            strcat(result, word1);
+        }
     }
-    printf("%s", result);
 
+
+    printf("%s", result);
     return 0;
 }
 
