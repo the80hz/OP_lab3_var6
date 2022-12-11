@@ -48,18 +48,21 @@ int main() {
     char word1[MAX_LEN];
     char word1_clean[MAX_LEN];
 
+    char prev_sentence[MAX_LEN];
+
     char result[MAX_LEN];
 
     while (*main) {
-        int flag = 0;
+        int flag_is_next = 0;
         main = get_word(main, word1);
         strcpy(word1_clean, word1);
         if (strchr(punctuation_marks, word1_clean[strlen(word1_clean) - 1])) {
             word1_clean[strlen(word1_clean) - 1] = '\0';
         }
+
         if (strlen(word1_clean) > 0) {
             to_lower(word1_clean);
-            printf("%s!", word1);
+            //printf("%s!", word1);
 
             char *main2 = main;
 
@@ -73,20 +76,25 @@ int main() {
                 }
                 if(strlen(word2_clean) > 0) {
                     to_lower(word2_clean);
-                    printf("%s ", word2);
+                    //printf("%s ", word2);
 
                     if(strcmp(word1_clean, word2_clean) == 0) {
-                        printf("<-? ");
-                        flag = 1;
+                        flag_is_next = 1;
+                        //printf("1");
                         break;
                     }
-
                 }
             }
-            printf("\n");
-            if(flag == 0) {
+
+            if(flag_is_next == 1) {
+                // word1 = (word1)
+                strcat(result, "(");
                 strcat(result, word1);
+                strcat(result, ")");
             }
+
+            //printf("\n");
+
         }
 
     }
