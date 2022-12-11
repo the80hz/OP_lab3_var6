@@ -46,37 +46,51 @@ int main() {
 
     char *main = text;
     char word1[MAX_LEN];
+    char word1_clean[MAX_LEN];
 
-    char final[MAX_LEN];
+    char result[MAX_LEN];
 
     while (*main) {
+        int flag = 0;
         main = get_word(main, word1);
-        if (strchr(punctuation_marks, word1[strlen(word1) - 1])) {
-            word1[strlen(word1) - 1] = '\0';
+        strcpy(word1_clean, word1);
+        if (strchr(punctuation_marks, word1_clean[strlen(word1_clean) - 1])) {
+            word1_clean[strlen(word1_clean) - 1] = '\0';
         }
-        if (strlen(word1) > 0) {
-            to_lower(word1);
-            //printf("%s!", word1);
+        if (strlen(word1_clean) > 0) {
+            to_lower(word1_clean);
+            printf("%s!", word1);
 
             char *main2 = main;
+
             char word2[MAX_LEN];
+            char word2_clean[MAX_LEN];
             while(*main2){
                 main2 = get_word(main2, word2);
-                if(strchr(punctuation_marks, word2[strlen(word2) - 1])) {
-                    word2[strlen(word2) - 1] = '\0';
+                strcpy(word2_clean, word2);
+                if(strchr(punctuation_marks, word2_clean[strlen(word2_clean) - 1])) {
+                    word2_clean[strlen(word2_clean) - 1] = '\0';
                 }
-                if(strlen(word2) > 0) {
-                    to_lower(word2);
-                    if(strcmp(word1, word2) == 0) {
-                        printf("same");
+                if(strlen(word2_clean) > 0) {
+                    to_lower(word2_clean);
+                    printf("%s ", word2);
+
+                    if(strcmp(word1_clean, word2_clean) == 0) {
+                        printf("<-? ");
+                        flag = 1;
+                        break;
                     }
 
                 }
             }
-            //printf("\n");
+            printf("\n");
+            if(flag == 0) {
+                strcat(result, word1);
+            }
         }
 
     }
+    printf("%s", result);
 
     return 0;
 }
