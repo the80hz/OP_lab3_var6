@@ -3,7 +3,8 @@
 #include <ctype.h>
 
 
-#define MAX_LEN 1000
+#define SENTENCE 1000
+#define WORD 50
 
 char *get_word(char *str, char *word) {
     int i = 0;
@@ -24,15 +25,15 @@ void to_lower(char *str) {
 
 int main() {
     const char *punctuation_marks = " .,!?;:-<>[]{}()";
-    char dictionary[MAX_LEN][MAX_LEN];
-    char result[MAX_LEN] = "";
+    char dictionary[SENTENCE][SENTENCE];
+    char result[SENTENCE] = "";
 
-    char text[MAX_LEN];
-    fgets(text, MAX_LEN, stdin);
+    char text[SENTENCE];
+    fgets(text, SENTENCE, stdin);
 
     char *main = text;
-    char word1[MAX_LEN];
-    char word1_clean[MAX_LEN];
+    char word1[WORD];
+    char word1_clean[WORD];
 
     while (*main) {
         int flag_is_next = 0;
@@ -46,8 +47,8 @@ int main() {
         if (strlen(word1_clean) > 0) {
             to_lower(word1_clean);
             char *main2 = main;
-            char word2[MAX_LEN];
-            char word2_clean[MAX_LEN];
+            char word2[WORD];
+            char word2_clean[WORD];
 
             // проверка на будущее совпадение
             while(*main2){
@@ -64,12 +65,12 @@ int main() {
             }
 
             // проверка на наличие в словаре
-            for(int i = 0; i < MAX_LEN; i++)
+            for(int i = 0; i < SENTENCE; i++)
                 if(strcmp(dictionary[i], word1_clean) == 0)
                     flag_is_in_dictionary = 1;
 
             if(flag_is_in_dictionary == 0){
-                for(int i = 0; i < MAX_LEN; i++)
+                for(int i = 0; i < SENTENCE; i++)
                     if(strlen(dictionary[i]) == 0) {
                         strcpy(dictionary[i], word1_clean);
                         break;
@@ -86,7 +87,6 @@ int main() {
         if(flag_is_next == 0 && flag_is_in_dictionary == 0)
             strcat(result, word1);
     }
-
 
     printf("%s", result);
     return 0;
