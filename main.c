@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <locale.h>
+#include "windows.h"
 
 
 #define SENTENCE 1000
@@ -24,6 +26,10 @@ void to_lower(char* str) {
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian");
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
+
     const char* punctuation_marks = " .,!?;:-<>[]{}()";
     char dictionary[SENTENCE] = "";
     char result[SENTENCE] = "";
@@ -64,19 +70,19 @@ int main() {
                 }
             }
 
-			// проверка на наличие в словаре
-			char* main3 = dictionary;
-			char word3[WORD];
-			while (*main3) {
-				main3 = get_word(main3, word3);
-				if (strcmp(word1_clean, word3) == 0)
-					flag_is_in_dictionary = 1;
-			}
+            // проверка на наличие в словаре
+            char* main3 = dictionary;
+            char word3[WORD];
+            while (*main3) {
+                main3 = get_word(main3, word3);
+                if (strcmp(word1_clean, word3) == 0)
+                    flag_is_in_dictionary = 1;
+            }
 
-			// добавление очищенного слова в словарь если его там нет
+            // добавление очищенного слова в словарь если его там нет
             if (flag_is_in_dictionary == 0) {
-				strcat(dictionary, word1_clean);
-				strcat(dictionary, " ");
+                strcat(dictionary, word1_clean);
+                strcat(dictionary, " ");
             }
         }
 
