@@ -2,7 +2,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
-#include "windows.h"
 
 
 #define SENTENCE 1000
@@ -27,8 +26,6 @@ void to_lower(char* str) {
 
 int main() {
     setlocale(LC_ALL, "Russian");
-	SetConsoleOutputCP(1251);
-	SetConsoleCP(1251);
 
     const char* punctuation_marks = " .,!?;:-<>[]{}()";
     char dictionary[SENTENCE] = "";
@@ -47,7 +44,7 @@ int main() {
         main = get_word(main, word1);
         strcpy(word1_clean, word1);
         strcat(word1, " ");
-        if (strchr(punctuation_marks, word1_clean[strlen(word1_clean) - 1]))
+        while (strchr(punctuation_marks, word1_clean[strlen(word1_clean) - 1]))
             word1_clean[strlen(word1_clean) - 1] = '\0';
 
         if (strlen(word1_clean) > 0) {
@@ -61,7 +58,7 @@ int main() {
                 main2 = get_word(main2, word2);
                 strcpy(word2_clean, word2);
                 strcat(word2, " ");
-                if (strchr(punctuation_marks, word2_clean[strlen(word2_clean) - 1]))
+                while (strchr(punctuation_marks, word2_clean[strlen(word2_clean) - 1]))
                     word2_clean[strlen(word2_clean) - 1] = '\0';
                 if (strlen(word2_clean) > 0) {
                     to_lower(word2_clean);
